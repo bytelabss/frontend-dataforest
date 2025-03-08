@@ -10,19 +10,15 @@
   --color-gray-50: #EFE6E6;
   --color-gray-100: #DFCCCC;
   --color-gray-500: #5E0000;
-  --color-primary-100: #FFE1E0;
-  --color-primary-300: #FFA6A3;
-  --color-primary-500: #FF6B66;
+  --color-primary-100: #f1ffe0;
+  --color-primary-300: #c7fa9d;
+  --color-primary-500: #96ff66;
   --color-secondary-400: #FFCD5B;
   --color-secondary-500: #FFC132;
   --background-image-gradient-yellowred: linear-gradient(90deg, #FF616A 0%, #FFC837 100%);
   --background-image-mobile-home: url('./assets/HomePageGraphic.png');
   --font-family-dmsans: 'DM Sans', sans-serif;
   --font-family-montserrat: 'Montserrat', sans-serif;
-  --content-evolvetext: url("./assets/EvolveText.png");
-  --content-abstractwaves: url("./assets/AbstractWaves.png");
-  --content-sparkles: url("./assets/Sparkles.png");
-  --content-circles: url("./assets/Circles.png");
 }
 
 html,
