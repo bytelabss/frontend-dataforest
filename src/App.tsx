@@ -3,6 +3,7 @@ import "./index.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import ReforestedAreaCreate from "./pages/ReforestedAreaCreate";
 import { JSX, useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
 
@@ -35,6 +36,7 @@ export default function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/cadastrardados" element={<ReforestedAreaCreate />} />
       </Routes>
     </Router>
   );
