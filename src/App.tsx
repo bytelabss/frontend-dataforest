@@ -6,6 +6,7 @@ import About from "./pages/About";
 import ReforestedAreaCreate from "./pages/ReforestedAreaCreate";
 import { JSX, useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
+import MapPage from "./pages/MapPage";
 
 export default function App(): JSX.Element {
 
@@ -37,6 +38,7 @@ export default function App(): JSX.Element {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/cadastrardados" element={<ReforestedAreaCreate />} />
+        <Route path="/mapa" element={<MapPage />} />
       </Routes>
     </Router>
   );
