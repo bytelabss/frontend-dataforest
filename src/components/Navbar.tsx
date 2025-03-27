@@ -35,21 +35,25 @@ export default function Navbar({isTopOfPage, selectedPage, setSelectedPage}: Pro
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 text-sm`}>
                   <NavbarLinks 
+                    link=""
                     page="Dashboard"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
                   <NavbarLinks
+                    link="cadastrardados"
                     page="Cadastrar Dados"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
                   <NavbarLinks
+                    link="about"
                     page="Monitoramento"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
                   <NavbarLinks
+                    link="/"
                     page="Predição"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
@@ -92,21 +96,25 @@ export default function Navbar({isTopOfPage, selectedPage, setSelectedPage}: Pro
           {/* MENU ITEMS */}
           <div className="ml-[20%] flex flex-col gap-10 text-2xl">
             <NavbarLinks 
+              link=""
               page="Dashboard"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
             <NavbarLinks
+              link="cadastrardados"
               page="Cadastrar Dados"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
             <NavbarLinks
+              link="about"
               page="Monitoramento"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
             <NavbarLinks
+              link="/"
               page="Predição"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
