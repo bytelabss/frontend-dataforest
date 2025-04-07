@@ -1,7 +1,6 @@
 // src/pages/Home.tsx
 import { JSX } from "react";
 import Plant from "../assets/plant.svg";
-import TermModal from "../components/TermModal";
 
 export default function Home(): JSX.Element {
   return (
@@ -32,13 +31,6 @@ export default function Home(): JSX.Element {
         <div className="w-2xl">
           <img src={Plant} alt="Reflorestamento" />
         </div>
-        <TermModal 
-        showInitially={true} // Opcional - padrão é true
-        onAccept={() => {
-          // Callback quando termos são aceitos
-          console.log("Termos aceitos com sucesso!");
-        }}
-      />
       </div>
       </div>
   );

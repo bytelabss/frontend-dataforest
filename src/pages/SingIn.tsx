@@ -1,5 +1,6 @@
 import { JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TermModal from "../components/TermModal";
 
 export default function SignIn(): JSX.Element {
   const [email, setEmail] = useState("");
@@ -7,6 +8,7 @@ export default function SignIn(): JSX.Element {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [showTermModal, setShowTermModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,9 +32,8 @@ export default function SignIn(): JSX.Element {
 
       // Store the token in localStorage
       localStorage.setItem("token", data.token);
-      
-      // Redirect to dashboard or home page
-      navigate("/dashboard");
+      setShowTermModal(true);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unknown error occurred");
     } finally {
@@ -41,6 +42,18 @@ export default function SignIn(): JSX.Element {
   };
 
   return (
+    <>
+    {showTermModal && (
+      <TermModal
+        showInitially={true}
+        onAccept={() => {
+          console.log("Termos aceitos com sucesso!");
+          setShowTermModal(false);
+          navigate("/");
+        }}
+      />
+    )}
+    
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
@@ -185,5 +198,6 @@ export default function SignIn(): JSX.Element {
         </form>
       </div>
     </div>
+    </>
   );
 }
