@@ -34,6 +34,12 @@ export default function Navbar({isTopOfPage, selectedPage, setSelectedPage}: Pro
               // DESKTOP SCREENS
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 text-sm`}>
+                <NavbarLinks
+                    link="SignIn"
+                    page="SignIn"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
                   <NavbarLinks 
                     link=""
                     page="Dashboard"
@@ -60,8 +66,8 @@ export default function Navbar({isTopOfPage, selectedPage, setSelectedPage}: Pro
                   />
                 </div>
                 <div className={`${flexBetween} gap-8`}>
-                  <p>Sign In</p>
-                  <ActionButton setSelectedPage={setSelectedPage}>Cadastrar Dados</ActionButton>
+                <ActionButton setSelectedPage={setSelectedPage}>SignIn</ActionButton>
+                <ActionButton setSelectedPage={setSelectedPage}>Cadastrar Dados</ActionButton>
                 </div>
               </div>
             ) : (
@@ -116,6 +122,12 @@ export default function Navbar({isTopOfPage, selectedPage, setSelectedPage}: Pro
             <NavbarLinks
               link="/"
               page="Predição"
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+            <NavbarLinks
+              link="/signin"
+              page="SignIn"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
