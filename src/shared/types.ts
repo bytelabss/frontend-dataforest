@@ -3,4 +3,5 @@ export enum SelectedPage {
   CadastrarDados = "cadastrardados",
   Monitoramento = "monitoramento",
   Predicao = "predicao",
+  SignIn = "SignIn"
 }
