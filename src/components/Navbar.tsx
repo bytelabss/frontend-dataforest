@@ -20,6 +20,8 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
   const navbarBackground = isTopOfPage ? "bg-transparent" : "bg-blue-200 drop-shadow";
 
+  const isAuthenticated = !!localStorage.getItem("token");
+
   return (
     <nav>
       <div className={`${navbarBackground} ${flexBetween} bg-blue-500 fixed top-0 z-30 w-full py-6`}>
@@ -57,8 +59,28 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
+                  <NavbarLinks
+                    link="usuarios"
+                    page="Usuários"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
                 </div>
 
+                {isAuthenticated ? (
+                <div className={`${flexBetween} gap-4`}>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("id");
+                      window.location.href = "/SignIn";
+                    }}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                  >
+                    Sair
+                  </button>
+                </div>
+              ) : (
                 <div className={`${flexBetween} gap-8`}>
                   <ActionButton
                     setSelectedPage={setSelectedPage}
@@ -75,6 +97,8 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
                     Cadastrar Dados
                   </ActionButton>
                 </div>
+              )}
+
               </div>
             ) : (
               // MOBILE BUTTON

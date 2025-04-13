@@ -8,6 +8,8 @@ import { JSX, useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
 import MapPage from "./pages/MapPage";
 import SignIn from "./pages/SingIn";
+import Usuarios from "./pages/Users";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App(): JSX.Element {
 
@@ -38,9 +40,19 @@ export default function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/cadastrardados" element={<ReforestedAreaCreate />} />
-        <Route path="/mapa" element={<MapPage />} />
+        <Route path="/cadastrardados" element={
+          <ProtectedRoute>
+            <ReforestedAreaCreate />
+          </ProtectedRoute>
+          
+        } />
+        <Route path="/mapa" element={
+          <ProtectedRoute>
+            <MapPage />
+          </ProtectedRoute>        
+        } />
         <Route path="/signIn" element={<SignIn />} />
+        <Route path="/usuarios" element={<Usuarios />} />
       </Routes>
     </Router>
   );

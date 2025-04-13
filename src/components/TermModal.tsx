@@ -70,9 +70,8 @@ export default function TermoModal({
         },
         body: JSON.stringify({
           sections: Object.entries(checks)
-            .filter(([_, checked]) => checked)
-            .map(([id]) => ({ section_id: id })),
-          accepted: true
+            .filter(([checked]) => checked)
+            .map(([id]) => ({ section_id: id, accepted: true })),
         })
       });
 
