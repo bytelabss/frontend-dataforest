@@ -10,6 +10,7 @@ import MapPage from "./pages/MapPage";
 import SignIn from "./pages/SingIn";
 import Usuarios from "./pages/Users";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Predicao from "./pages/Predicao";
 
 export default function App(): JSX.Element {
 
@@ -53,6 +54,7 @@ export default function App(): JSX.Element {
         } />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/predicao" element={<Predicao />} />
       </Routes>
     </Router>
   );
