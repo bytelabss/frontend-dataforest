@@ -226,7 +226,11 @@ export default function Map(): JSX.Element {
                                             <strong>Cluster:</strong> {classificationResult.cluster}
                                         </p>
                                         <p>
-                                            <strong>Espécie:</strong> {classificationResult.species}
+                                            <strong>Espécie:</strong>{" "}
+                                            {classificationResult.species
+                                                ?.toLowerCase()
+                                                .replace(/\b\w/g, (char) => char.toUpperCase())}
+
                                         </p>
                                     </div>
                                 )}
@@ -236,7 +240,11 @@ export default function Map(): JSX.Element {
                                         <h4 align="center">Estratégia</h4>
                                         <p>
                                             <strong>Estratégia:</strong>{" "}
-                                            {strategyResult.estrategia_prevista}
+                                                {strategyResult.estrategia_prevista
+                                                ?.toLowerCase()
+                                                .replace(/_/g, " ")
+                                                .replace(/\b\w/g, (char) => char.toUpperCase())}
+
                                         </p>
                                         <p>
                                             <strong>Justificativa:</strong>{" "}
