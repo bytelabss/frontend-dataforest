@@ -127,6 +127,43 @@ const UserList: React.FC = () => {
           </tbody>
         </table>
       )}
+      {loggedUserId && (
+  <p className="mt-4 text-sm">
+    <button
+      onClick={async () => {
+        const confirmed = window.confirm("Tem certeza que deseja excluir seus dados pessoais? Essa ação é irreversível.");
+        if (!confirmed) return;
+
+        try {
+          const token = localStorage.getItem("token");
+
+          const res = await fetch(`http://localhost:5000/users/${loggedUserId}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (res.ok) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("id");
+            window.location.href = "/SignIn";
+          } else {
+            console.error("Erro ao excluir usuário logado:", await res.text());
+            alert("Erro ao excluir seus dados. Tente novamente.");
+          }
+        } catch (err) {
+          console.error("Erro de rede:", err);
+          alert("Erro de rede. Tente novamente.");
+        }
+      }}
+      className="text-red-600 hover:underline bg-transparent border-none p-0 cursor-pointer"
+    >
+      Excluir meus dados pessoais
+    </button>
+  </p>
+)}
+
     </div>
   );
 };
