@@ -21,3 +21,21 @@ export interface ReforestedArea {
   created_at: string;
   updated_at: string;
 }
+
+export type ClassificationResult = 'pinheiro' | 'eucalipto';
+export type PredictionResult = 'mecanizacao' | 'reflorestamento_natural' | 'intensiva_irrigacao' | 'fertilizacao_alta';
+
+export interface ClassificationResponse {
+  cluster: number;
+  mensagem: string;
+  species: ClassificationResult; // 'pinheiro' | 'eucalipto'
+}
+
+
+export interface PredictionResponse {
+  estrategia_prevista: PredictionResult;
+  justificativa: string;
+  eucalipto: string;
+  pinha: string;
+  adubacao: string;
+}

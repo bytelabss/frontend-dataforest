@@ -7,7 +7,7 @@ interface SelectInputProps {
   defaultOptionText?: string;
 }
 
-const SelectInputComponent: React.FC<SelectInputProps> = ({
+const SelectReforestedAreas: React.FC<SelectInputProps> = ({
   onAreaSelected,
   apiUrl,
   defaultOptionText = 'Select a reforested area'
@@ -85,4 +85,4 @@ const SelectInputComponent: React.FC<SelectInputProps> = ({
   );
 };
 
-export default SelectInputComponent;
+export default SelectReforestedAreas;
