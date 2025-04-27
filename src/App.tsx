@@ -9,7 +9,7 @@ import { SelectedPage } from "./shared/types";
 import MapPage from "./pages/MapPage";
 import SignIn from "./pages/SingIn";
 import Usuarios from "./pages/Users";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 import Predicao from "./pages/Predicao";
 
 export default function App(): JSX.Element {
@@ -42,15 +42,10 @@ export default function App(): JSX.Element {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/cadastrardados" element={
-          <ProtectedRoute>
-            <ReforestedAreaCreate />
-          </ProtectedRoute>
-          
+            <ReforestedAreaCreate />        
         } />
         <Route path="/mapa" element={
-          <ProtectedRoute>
-            <MapPage />
-          </ProtectedRoute>        
+            <MapPage />     
         } />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/usuarios" element={<Usuarios />} />
@@ -59,3 +54,17 @@ export default function App(): JSX.Element {
     </Router>
   );
 }
+
+
+
+//         <Route path="/cadastrardados" element={
+//   <ProtectedRoute>
+//   <ReforestedAreaCreate />
+// </ProtectedRoute>
+
+// } />
+// <Route path="/mapa" element={
+// <ProtectedRoute>
+//   <MapPage />
+// </ProtectedRoute>        
+// } />
