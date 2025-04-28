@@ -22,7 +22,7 @@ export interface ReforestedArea {
   updated_at: string;
 }
 
-export type ClassificationResult = 'pinheiro' | 'eucalipto';
+export type ClassificationResult = 'pinha' | 'eucalipto';
 export type PredictionResult = 'mecanizacao' | 'reflorestamento_natural' | 'intensiva_irrigacao' | 'fertilizacao_alta';
 
 export interface ClassificationResponse {

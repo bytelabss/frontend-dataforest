@@ -6,18 +6,23 @@ interface PredictionButtonProps {
   onClassify: (area: ReforestedArea) => Promise<void>;
   onPredict: (area: ReforestedArea) => Promise<void>;
   isLoading?: boolean;
+  onReset?: () => void; // <- New prop
 }
 
 const PredictionButton: React.FC<PredictionButtonProps> = ({
   selectedArea,
   onClassify,
   onPredict,
-  isLoading = false
+  isLoading = false,
+  onReset, // <- New prop
 }) => {
   if (!selectedArea) return null;
 
   const handleClick = async () => {
     try {
+      if (onReset) {
+        onReset(); // Clear old predictions first
+      }
       // First classify the area
       await onClassify(selectedArea);
       // Then predict the strategy

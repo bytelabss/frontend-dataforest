@@ -14,12 +14,12 @@ export default function Predicao(): JSX.Element {
 
   const handleAreaSelected = (area: ReforestedArea | null) => {
     setSelectedArea(area);
-    setClassification(null);
-    setPrediction(null);
-    setError(null);
+    // setClassification(null);
+    // setPrediction(null);
+    // setError(null);
   };
 
-  const mockJSON = {
+  const mockJSON_eucalipto = {
 		"temperatura": 24,
 	  "precipitacao": 1300,
 		"altitude": 500,
@@ -28,74 +28,144 @@ export default function Predicao(): JSX.Element {
 	  "distancia_vertical_drenagem": 45.2,
     "densidade_drenagem": 0.8,
 	 	"cobertura_arborea": 30.5
-}
+  }
+
+  const mockJSON_pinha = {
+		"temperatura": 25.9,
+	  "precipitacao": 2160.0,
+		"altitude": 52.43000030517578,
+		"declividade": 0.3255650103092193,
+	  "exposicao": 254.0546112060547,
+	  "distancia_vertical_drenagem": 24.950000762939453,
+    "densidade_drenagem": 19.884899139404297,
+	 	"cobertura_arborea": 86.0
+  }
 
   const handleClassify = async (area: ReforestedArea) => {
     
     setIsLoading(true);
     setError(null);
 
-    console.log(area) // Debugging line to check the area object
+    console.log("Area a ser classificada: ", area) // Debugging line to check the area object
 
-    try {
-      const response = await fetch('http://127.0.0.1:5000/classificar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // body: JSON.stringify({
-        //   area_id: area.id,
-        //   geom: area.geom
-        // })
-        body: JSON.stringify(mockJSON)
-      });
-
-      if (!response.ok) {
-        throw new Error(`Classification failed: ${response.statusText}`);
+    if (area.name === "Área de Reflorestamento do Front") {
+      console.log("Body: ", mockJSON_eucalipto) // Debugging line to check the body being sent
+      try {
+        const response = await fetch('http://127.0.0.1:5000/classificar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // body: JSON.stringify({
+          //   area_id: area.id,
+          //   geom: area.geom
+          // })
+          body: JSON.stringify(mockJSON_eucalipto)
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Classification failed: ${response.statusText}`);
+        }
+  
+        const result: ClassificationResponse = await response.json();
+        setClassification(result.species); // Extract the species from response
+        console.log("RESULTADO: ", result);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Classification failed');
+      } finally {
+        setIsLoading(false);
       }
+    } else {
+        try {
+          const response = await fetch('http://127.0.0.1:5000/classificar', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // body: JSON.stringify({
+            //   area_id: area.id,
+            //   geom: area.geom
+            // })
+            body: JSON.stringify(mockJSON_pinha)
+          });
+    
+          if (!response.ok) {
+            throw new Error(`Classification failed: ${response.statusText}`);
+          }
+    
+          const result: ClassificationResponse = await response.json();
+          setClassification(result.species); // Extract the species from response
+          console.log("RESULTADO: ", result);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Classification failed');
+        } finally {
+          setIsLoading(false);
+        }
 
-      const result: ClassificationResponse = await response.json();
-      setClassification(result.species); // Extract the species from response
-      console.log("RESULTADO: ", result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Classification failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  } };
 
   const handlePredict = async (area: ReforestedArea) => {
 
     setError(null);
 
     console.log(area) // Debugging line to check the area object
-    
-    try {
-      const response = await fetch('http://127.0.0.1:5000/prever-estrategia', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // body: JSON.stringify({
-        //   area_id: area.id,
-        //   area_in_m2: area.area_in_m2,
-        //   geom: area.geom
-        // })
-        body: JSON.stringify(mockJSON)
-      });
 
-      if (!response.ok) {
-        throw new Error(`Prediction failed: ${response.statusText}`);
+    if (area.name === "Área de Reflorestamento do Front") {
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/prever-estrategia', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // body: JSON.stringify({
+          //   area_id: area.id,
+          //   area_in_m2: area.area_in_m2,
+          //   geom: area.geom
+          // })
+          body: JSON.stringify(mockJSON_eucalipto)
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Prediction failed: ${response.statusText}`);
+        }
+  
+        const result: PredictionResponse = await response.json();
+        setPredictionResponse(result);
+        setPrediction(result.estrategia_prevista); // Keep this for backward compatibility if needed
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Prediction failed');
+      } finally {
+        setIsLoading(false);
       }
-
-      const result: PredictionResponse = await response.json();
-      setPredictionResponse(result);
-      setPrediction(result.estrategia_prevista); // Keep this for backward compatibility if needed
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Prediction failed');
-    } finally {
-      setIsLoading(false);
-    }
+    } else {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/prever-estrategia', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // body: JSON.stringify({
+          //   area_id: area.id,
+          //   area_in_m2: area.area_in_m2,
+          //   geom: area.geom
+          // })
+          body: JSON.stringify(mockJSON_pinha)
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Prediction failed: ${response.statusText}`);
+        }
+  
+        const result: PredictionResponse = await response.json();
+        setPredictionResponse(result);
+        setPrediction(result.estrategia_prevista); // Keep this for backward compatibility if needed
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Prediction failed');
+      } finally {
+        setIsLoading(false);
+      }
+    };
   };
 
   return (
@@ -118,6 +188,12 @@ export default function Predicao(): JSX.Element {
             onClassify={handleClassify}
             onPredict={handlePredict}
             isLoading={isLoading}
+            onReset={() => {
+              setClassification(null);
+              setPrediction(null);
+              setPredictionResponse(null);
+              setError(null);
+            }}
           />
         </div>
 

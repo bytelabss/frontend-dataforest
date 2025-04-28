@@ -2,6 +2,7 @@ import React from 'react';
 import { ClassificationResult, PredictionResponse } from '../shared/types';
 import Plant2 from '../assets/plant2.svg'
 import Plant3 from '../assets/plant3.svg';
+import Planting_machine from '../assets/planting_machine.svg';
 // import Plant4 from '../assets/plant4.svg';
 
 interface PredictionDisplayProps {
@@ -17,26 +18,36 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
 }) => {
   // Content for classification results
   const classificationContent = {
-    pinheiro: {
+    pinha: {
       title: "Área de Pinheiro",
       description: "Esta área é classificada como plantação de pinheiro.",
       image: Plant2,
-      tips: "Dicas para manejo de pinheiros..."
+      tips: `Dicas para manejo de pinheiros:
+    
+- Prepare o solo antes do plantio.
+- Realize podas regulares para o melhor crescimento.
+- Faça controle de pragas e doenças de forma preventiva.
+- Monitore a umidade do solo frequentemente.`
     },
     eucalipto: {
       title: "Área de Eucalipto",
       description: "Devido as características e dados climáticos e ambientais da área registrada, a melhor espécie para o reflorestamento é eucalipto.",
       image: Plant3,
-      tips: "Dicas para manejo de eucaliptos..."
+      tips: `Dicas para manejo de eucaliptos:
+
+- Escolha variedades adequadas ao clima local.
+- Mantenha espaçamento ideal entre mudas.
+- Irrigue nos primeiros meses se necessário.
+- Faça adubações equilibradas para crescimento acelerado.`
     }
   };
   
     // Content for prediction results
     const predictionContent = {
       mecanizacao: {
-        title: "Mecanização Recomendada",
+        title: "Mecanização da Área",
         description: "Esta área se beneficia de técnicas mecanizadas de reflorestamento.",
-        image: "/images/mecanizacao.jpg",
+        image: Planting_machine,
         benefits: "Benefícios da mecanização..."
       },
       reflorestamento_natural: {
@@ -76,7 +87,7 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
                     {/* Text content */}
                     <div className="flex-1">
                     <p className="text-gray-700 mb-4">{classificationContent[classification].description}</p>
-                    <p className="text-gray-500">{classificationContent[classification].tips}</p>
+                    <pre className="text-gray-500">{classificationContent[classification].tips}</pre>
                     </div>
 
                     {/* Image */}
