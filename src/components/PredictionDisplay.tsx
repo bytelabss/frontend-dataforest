@@ -1,5 +1,8 @@
 import React from 'react';
 import { ClassificationResult, PredictionResponse } from '../shared/types';
+import Plant2 from '../assets/plant2.svg'
+import Plant3 from '../assets/plant3.svg';
+// import Plant4 from '../assets/plant4.svg';
 
 interface PredictionDisplayProps {
     classification?: ClassificationResult;
@@ -17,13 +20,13 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
     pinheiro: {
       title: "Área de Pinheiro",
       description: "Esta área é classificada como plantação de pinheiro.",
-      image: "/images/pinheiro.jpg",
+      image: Plant2,
       tips: "Dicas para manejo de pinheiros..."
     },
     eucalipto: {
       title: "Área de Eucalipto",
-      description: "Esta área é classificada como plantação de eucalipto.",
-      image: "/images/eucalipto.jpg",
+      description: "Devido as características e dados climáticos e ambientais da área registrada, a melhor espécie para o reflorestamento é eucalipto.",
+      image: Plant3,
       tips: "Dicas para manejo de eucaliptos..."
     }
   };
@@ -45,7 +48,7 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
       intensiva_irrigacao: {
         title: "Intensiva com Irrigação",
         description: "Esta área requer técnicas intensivas com sistema de irrigação.",
-        image: "/images/irrigacao.jpg",
+        image: Plant2,
         benefits: "Benefícios da irrigação..."
       },
       fertilizacao_alta: {
@@ -65,32 +68,57 @@ const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
         )}
         
         {classification && (
-            <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+            <div className="bg-white shadow-md rounded-lg p-6 mb-8 mr-100">
                 <h3 className="text-2xl font-semibold mb-4">{classificationContent[classification].title}</h3>
-                <img src={classificationContent[classification].image} alt="..." className="w-full h-64 object-cover rounded-md mb-4" />
+                {/* New content layout */}
+                <div className="flex flex-col md:flex-row items-center md:items-start w-full gap-8">
+                    
+                    {/* Text content */}
+                    <div className="flex-1">
+                    <p className="text-gray-700 mb-4">{classificationContent[classification].description}</p>
+                    <p className="text-gray-500">{classificationContent[classification].tips}</p>
+                    </div>
+
+                    {/* Image */}
+                    <div className="flex-shrink-0">
+                    <img 
+                        src={classificationContent[classification].image} 
+                        alt={classificationContent[classification].title}
+                        className="rounded-md object-cover 
+                                w-96 h-72 md:w-[450px] md:h-[340px] 
+                                transition-all duration-300" 
+                    />
+                    </div>
+                </div>
+                {/* <img src={classificationContent[classification].image} alt="..." className="w-full h-64 object-cover rounded-md mb-4" />
                 <p className="text-gray-700 mb-2">{classificationContent[classification].description}</p>
-                <p className="text-gray-500">{classificationContent[classification].tips}</p>
+                <p className="text-gray-500">{classificationContent[classification].tips}</p> */}
             </div>
         )}
   
         {predictionResponse && (
             <div className="bg-white shadow-md rounded-lg p-6 mb-8">
                 <h3 className="text-2xl font-semibold mb-4">Estratégia Recomendada: {predictionContent[predictionResponse.estrategia_prevista].title}</h3>
-                <img 
-                    src={predictionContent[predictionResponse.estrategia_prevista].image} 
-                    alt={predictionContent[predictionResponse.estrategia_prevista].title}
-                    className="w-full h-64 object-cover rounded-md mb-4"
-                />
                 
-                <div className="prediction-details">
-                    <h4 className="text-2xl font-semibold mb-4">Justificativa:</h4>
-                    <p className="text-gray-700 mb-2">{predictionResponse.justificativa}</p>
+                <div className="flex flex-col md:flex-row items-center md:items-start w-full gap-8">
+                    <img 
+                        src={predictionContent[predictionResponse.estrategia_prevista].image} 
+                        alt={predictionContent[predictionResponse.estrategia_prevista].title}
+                        className="rounded-md object-cover 
+                                w-96 h-72 md:w-[450px] md:h-[340px] 
+                                transition-all duration-300"
+                    />
                     
-                    <h4 className="text-2xl font-semibold mb-4">Recomendações para Eucalipto:</h4>
-                    <p className="text-gray-700 mb-2">{predictionResponse.eucalipto}</p>
-                    
-                    <h4 className="text-2xl font-semibold mb-4">Orientações de Adubação:</h4>
-                    <p className="text-gray-700 mb-2">{predictionResponse.adubacao}</p>
+                    <div className="pl-10 pt-5 flex-1">
+                        <h4 className="text-2xl font-semibold mb-4">Justificativa:</h4>
+                        <p className="text-gray-700 mb-2">{predictionResponse.justificativa}</p>
+                        
+                        <h4 className="text-2xl font-semibold mb-4">Recomendações para Eucalipto:</h4>
+                        <p className="text-gray-700 mb-2">{predictionResponse.eucalipto}</p>
+                        
+                        <h4 className="text-2xl font-semibold mb-4">Orientações de Adubação:</h4>
+                        <p className="text-gray-700 mb-2">{predictionResponse.adubacao}</p>
+                    </div>
                 </div>
             </div>
         )}

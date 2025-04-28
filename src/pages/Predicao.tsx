@@ -100,7 +100,7 @@ export default function Predicao(): JSX.Element {
 
   return (
     <div>
-      <div className="pt-36 px-6"> 
+      <div className="pt-36 px-24"> 
         <h1 className="text-4xl font-bold mb-4">Predição</h1>
         <p className="text-lg text-gray-600 mb-1">Bem-vindo à predição inteligente Dataforest!</p>
         <p className="text-lg text-gray-600 mb-8">Aqui você pode utilizar nosso modelo de Machine Learning e ter acesso às melhores espécies e estratégias, <br /> e assim maximizar a eficácia do seu reflorestamento! Vamos começar? </p>
