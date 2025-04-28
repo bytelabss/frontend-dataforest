@@ -10,6 +10,7 @@ import MapPage from "./pages/MapPage";
 import SignIn from "./pages/SingIn";
 import Usuarios from "./pages/Users";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Predicao from "./pages/Predicao";
 
 export default function App(): JSX.Element {
 
@@ -40,20 +41,50 @@ export default function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+
+        {/* PROTECTED ROUTE CADASTRAR DADOS */}
         <Route path="/cadastrardados" element={
           <ProtectedRoute>
             <ReforestedAreaCreate />
           </ProtectedRoute>
-          
         } />
+
+        {/* UNPROTECTED ROUTE CADASTRAR DADOS */}
+        {/* <Route path="/cadastrardados" element={
+            <ReforestedAreaCreate />        
+        } /> */}
+
+        {/* PROTECTED ROUTE MAPA */}
         <Route path="/mapa" element={
           <ProtectedRoute>
             <MapPage />
           </ProtectedRoute>        
         } />
+
+        {/* UNPROTECTED ROUTE MAPA */}
+        {/* <Route path="/mapa" element={
+            <MapPage />     
+        } /> */}
+
+
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/predicao" element={<Predicao />} />
       </Routes>
     </Router>
   );
 }
+
+
+
+//         <Route path="/cadastrardados" element={
+//   <ProtectedRoute>
+//   <ReforestedAreaCreate />
+// </ProtectedRoute>
+
+// } />
+// <Route path="/mapa" element={
+// <ProtectedRoute>
+//   <MapPage />
+// </ProtectedRoute>        
+// } />

@@ -79,6 +79,7 @@ export default function Map(): JSX.Element {
     };
 
     const fetchReforestedAreaData = async (area: ReforestedArea): Promise<GeospatialData | null> => {
+        console.log("Fetch body:", area.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
         try {
             const response = await fetch("http://127.0.0.1:5000/geospatial_data", {
                 method: "POST",

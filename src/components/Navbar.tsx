@@ -54,7 +54,7 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
                     setSelectedPage={setSelectedPage}
                   />
                   <NavbarLinks
-                    link="/"
+                    link="predicao"
                     page="Predição"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
@@ -144,7 +144,7 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
               setSelectedPage={setSelectedPage}
             />
             <NavbarLinks
-              link="/"
+              link="predicao"
               page="Predição"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
