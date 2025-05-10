@@ -68,19 +68,25 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
                 </div>
 
                 {isAuthenticated ? (
-                <div className={`${flexBetween} gap-4`}>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("id");
-                      window.location.href = "/SignIn";
-                    }}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                  >
-                    Sair
-                  </button>
-                </div>
-              ) : (
+                  <div className={`${flexBetween} gap-4`}>
+                    <a
+                      href="/aboutuser"
+                      className="bg-[#556B2F] text-white px-4 py-2 rounded hover:bg-green-800 transition"
+                    >
+                      Meus Dados
+                    </a>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("id");
+                        window.location.href = "/SignIn";
+                      }}
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                ) : (
                 <div className={`${flexBetween} gap-8`}>
                   <ActionButton
                     setSelectedPage={setSelectedPage}
