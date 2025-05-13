@@ -12,6 +12,7 @@ import Usuarios from "./pages/Users";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Predicao from "./pages/Predicao";
 import AboutUser from "./pages/AboutUser";
+import RiskAreasList from "./pages/RiskAreasList";
 
 export default function App(): JSX.Element {
 
@@ -23,7 +24,7 @@ export default function App(): JSX.Element {
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setIsTopOfPage(true);
-        setSelectedPage(SelectedPage.Dashboard);
+        setSelectedPage(SelectedPage.Home);
       } else {
         setIsTopOfPage(false);
       }
@@ -86,6 +87,7 @@ export default function App(): JSX.Element {
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="/predicao" element={<Predicao />} />
         <Route path="/aboutuser" element={<AboutUser />} />
+        <Route path="/dashboard" element={<RiskAreasList />} />
       </Routes>
     </Router>
   );
