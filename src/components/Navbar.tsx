@@ -37,6 +37,12 @@ export default function Navbar({ isTopOfPage, selectedPage, setSelectedPage }: P
                 <div className={`${flexBetween} gap-8 text-sm`}>
                   <NavbarLinks
                     link=""
+                    page="Início"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+                  <NavbarLinks
+                    link="dashboard"
                     page="Dashboard"
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}

@@ -1,4 +1,5 @@
 export enum SelectedPage {
+  Home = "home",
   Dashboard = "dashboard",
   CadastrarDados = "cadastrardados",
   Monitoramento = "monitoramento",
