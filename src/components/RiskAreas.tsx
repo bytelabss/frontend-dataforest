@@ -224,7 +224,57 @@ const RiskAreas: React.FC = () => {
         return <p>Nenhuma área de risco encontrada.</p>;
     }
 
-    return <p>{JSON.stringify(riskAreas, null, 2)}</p>;
+    return (
+        <div className="flex flex-col md:flex-row gap-4 p-6 bg-white min-h-screen">
+        <div className="grid-1 bg-white p-6 shadow-lg rounded-lg w-4xl mx-auto md:w-2/3 md:h-2/3 overflow-y-auto">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">Áreas que correm Risco</h2>
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+            {riskAreas.map((riskArea) => (
+                <div
+                key={riskArea.area.id}
+                onClick={() => setSelectedArea(riskArea)}
+                className="cursor-pointer bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
+                >
+                <h3 className="text-xl font-semibold text-black-700 mb-1">{riskArea.area.name}</h3>
+                <p className="text-gray-600 text-sm">{riskArea.area.description}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                    {Object.entries(riskArea.risks.ambientais)
+                    .filter(([_, v]) => v)
+                    .map(([k]) => (
+                        <span key={k} className="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
+                        {k}
+                        </span>
+                    ))}
+                    {Object.entries(riskArea.risks.geologicos)
+                    .filter(([_, v]) => v)
+                    .map(([k]) => (
+                        <span key={k} className="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">
+                        {k}
+                        </span>
+                    ))}
+                    {Object.entries(riskArea.risks.biologicos)
+                    .filter(([_, v]) => v)
+                    .map(([k]) => (
+                        <span key={k} className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                        {k}
+                        </span>
+                    ))}
+                    {Object.entries(riskArea.risks.antrópicos)
+                    .filter(([_, v]) => v)
+                    .map(([k]) => (
+                        <span key={k} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">
+                        {k}
+                        </span>
+                    ))}
+                </div>
+                </div>
+            ))}
+            </div>
+        </div>
+    
+        {selectedArea && (<p></p>)}
+        </div>
+    );
   
 };
 
