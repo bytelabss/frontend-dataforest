@@ -11,37 +11,57 @@ export default function SignIn(): JSX.Element {
   const [showTermModal, setShowTermModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  e.preventDefault();
+  setIsLoading(true);
+  setError("");
 
-    try {
-      const response = await fetch("http://127.0.0.1:5000/auth/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const response = await fetch("http://127.0.0.1:5000/auth/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to signin");
-      }
-
-      // Store the token in localStorage
-      localStorage.setItem("token", data.token);
-
-      localStorage.setItem("id", data.id);
-      setShowTermModal(true);
-
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An unknown error occurred");
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to signin");
     }
-  };
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("id", data.id);
+
+    // Verifica se usuário já aceitou o termo mais recente
+    const verificaResponse = await fetch("http://127.0.0.1:5000/terms/verifica", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    });
+
+    if (verificaResponse.ok) {
+      const verificaData = await verificaResponse.json();
+      if (verificaData.success) {
+        // Usuário ainda não aceitou o termo
+        setShowTermModal(true);
+      } else {
+        // Usuário já aceitou, navega direto
+        navigate("/mapa");
+      }
+    } else {
+      // Se der erro inesperado, navega mesmo assim
+      navigate("/mapa");
+    }
+
+  } catch (err) {
+    setError(err instanceof Error ? err.message : "An unknown error occurred");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <>
