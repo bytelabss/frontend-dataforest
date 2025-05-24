@@ -23,6 +23,28 @@ export interface ReforestedArea {
   updated_at: string;
 }
 
+export interface RasterData{
+  valor: number;
+  medida: string;
+}
+
+export interface Raster {
+  temperatura?: RasterData;
+  precipitacao?: RasterData;
+  altitude?: RasterData;
+  declividade?: RasterData;
+  exposicao?: RasterData;
+  distancia_vertical_drenagem?: RasterData;
+  densidade_drenagem?: RasterData;
+  cobertura_arborea?: RasterData;
+}
+
+export interface GeospatialData {
+  id: string;
+  geom: string;
+  raster: Raster;
+}
+
 export type ClassificationResult = 'pinha' | 'eucalipto';
 export type PredictionResult = 'mecanizacao' | 'reflorestamento_natural' | 'intensiva_irrigacao' | 'fertilizacao_alta';
 
