@@ -1,140 +1,119 @@
 import React from 'react';
 import { ClassificationResult, PredictionResponse } from '../shared/types';
-import Plant2 from '../assets/plant2.svg'
+import Plant2 from '../assets/plant2.svg';
 import Plant3 from '../assets/plant3.svg';
+import Fertilizacao from '../assets/Fertilizacao.svg';
 import Planting_machine from '../assets/planting_machine.svg';
-// import Plant4 from '../assets/plant4.svg';
+import Reflorestamento from '../assets/reflorestamento_natural.svg';
+import Irrigacao from '../assets/irrigacao.svg';
 
 interface PredictionDisplayProps {
-    classification?: ClassificationResult;
-    predictionResponse?: PredictionResponse;
-    message?: string;
-  }
+  classification?: ClassificationResult;
+  predictionResponse?: PredictionResponse;
+  message?: string;
+}
 
-const PredictionDisplay: React.FC<PredictionDisplayProps> = ({ 
-  classification, 
+const PredictionDisplay: React.FC<PredictionDisplayProps> = ({
+  classification,
   predictionResponse,
-  message 
+  message,
 }) => {
-  // Content for classification results
   const classificationContent = {
     pinha: {
       title: "Área de Pinheiro",
       description: "Esta área é classificada como plantação de pinheiro.",
       image: Plant2,
       tips: `Dicas para manejo de pinheiros:
-    
-- Prepare o solo antes do plantio.
-- Realize podas regulares para o melhor crescimento.
-- Faça controle de pragas e doenças de forma preventiva.
-- Monitore a umidade do solo frequentemente.`
+      
+• Realize uma boa preparação do solo, incluindo correção de pH e limpeza de resíduos.
+• Faça podas seletivas para favorecer o crescimento uniforme das árvores.
+• Adote práticas preventivas no controle de pragas e doenças.
+• Acompanhe a umidade do solo para evitar estresse hídrico.`,
     },
     eucalipto: {
       title: "Área de Eucalipto",
-      description: "Devido as características e dados climáticos e ambientais da área registrada, a melhor espécie para o reflorestamento é eucalipto.",
+      description: "Devido às características e dados climáticos e ambientais da área registrada, a melhor espécie para o reflorestamento é eucalipto.",
       image: Plant3,
       tips: `Dicas para manejo de eucaliptos:
-
-- Escolha variedades adequadas ao clima local.
-- Mantenha espaçamento ideal entre mudas.
-- Irrigue nos primeiros meses se necessário.
-- Faça adubações equilibradas para crescimento acelerado.`
-    }
+      
+• Selecione clones ou espécies adaptadas às condições climáticas da região.
+• Garanta o espaçamento adequado entre as mudas para evitar competição por recursos.
+• Realize irrigação complementar durante o período inicial, especialmente em épocas secas.
+• Aplique fertilizantes de forma equilibrada, conforme análise do solo.`,
+    },
   };
-  
-    // Content for prediction results
-    const predictionContent = {
-      mecanizacao: {
-        title: "Mecanização da Área",
-        description: "Esta área se beneficia de técnicas mecanizadas de reflorestamento.",
-        image: Planting_machine,
-        benefits: "Benefícios da mecanização..."
-      },
-      reflorestamento_natural: {
-        title: "Reflorestamento Natural",
-        description: "Esta área é ideal para regeneração natural da floresta.",
-        image: "/images/natural.jpg",
-        benefits: "Benefícios do reflorestamento natural..."
-      },
-      intensiva_irrigacao: {
-        title: "Intensiva com Irrigação",
-        description: "Esta área requer técnicas intensivas com sistema de irrigação.",
-        image: Plant2,
-        benefits: "Benefícios da irrigação..."
-      },
-      fertilizacao_alta: {
-        title: "Fertilização Alta",
-        description: "Esta área requer fertilização intensiva para melhor resultados.",
-        image: "/images/fertilizacao.jpg",
-        benefits: "Benefícios da fertilização..."
-      }
-    };
-  
-    return (
-        <div className="prediction-results">
-        {message && (
-          <div className="success-message" style={{ color: 'green', marginBottom: '15px' }}>
-            {message}
+
+  const predictionContent = {
+    mecanizacao: {
+      title: "Mecanização da Área",
+      description: "A área apresenta condições ideais para o uso de máquinas e implementos agrícolas, otimizando o processo de plantio e reduzindo o custo operacional.",
+      image: Planting_machine,
+    },
+    reflorestamento_natural: {
+      title: "Reflorestamento Natural",
+      description: "Esta área apresenta alta resiliência ambiental e pode se regenerar naturalmente, com o mínimo de intervenção humana.",
+      image: Reflorestamento,
+    },
+    intensiva_irrigacao: {
+      title: "Intensiva com Irrigação",
+      description: "A área possui características que exigem um manejo intensivo, com destaque para o uso de irrigação controlada para garantir o crescimento saudável das espécies.",
+      image: Irrigacao,
+    },
+    fertilizacao_alta: {
+      title: "Fertilização Alta",
+      description: "O solo desta área demanda altos níveis de nutrientes, sendo indicada uma fertilização mais frequente e robusta para alcançar o potencial produtivo desejado.",
+      image: Fertilizacao,
+    },
+  };
+
+  return (
+    <div className="prediction-results">
+      {message && (
+        <div className="success-message" style={{ color: 'green', marginBottom: '15px' }}>
+          {message}
+        </div>
+      )}
+
+      {classification && classificationContent[classification] && (
+        <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <h3 className="text-2xl font-semibold mb-4">{classificationContent[classification].title}</h3>
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="flex-1">
+              <p className="text-gray-700 mb-4">{classificationContent[classification].description}</p>
+              <pre className="text-gray-500 whitespace-pre-wrap">{classificationContent[classification].tips}</pre>
+            </div>
+            <img
+              src={classificationContent[classification].image}
+              alt={classificationContent[classification].title}
+              className="rounded-md w-96 h-72 object-cover"
+            />
           </div>
-        )}
-        
-        {classification && (
-            <div className="bg-white shadow-md rounded-lg p-6 mb-8 mr-100">
-                <h3 className="text-2xl font-semibold mb-4">{classificationContent[classification].title}</h3>
-                {/* New content layout */}
-                <div className="flex flex-col md:flex-row items-center md:items-start w-full gap-8">
-                    
-                    {/* Text content */}
-                    <div className="flex-1">
-                    <p className="text-gray-700 mb-4">{classificationContent[classification].description}</p>
-                    <pre className="text-gray-500">{classificationContent[classification].tips}</pre>
-                    </div>
+        </div>
+      )}
 
-                    {/* Image */}
-                    <div className="flex-shrink-0">
-                    <img 
-                        src={classificationContent[classification].image} 
-                        alt={classificationContent[classification].title}
-                        className="rounded-md object-cover 
-                                w-96 h-72 md:w-[450px] md:h-[340px] 
-                                transition-all duration-300" 
-                    />
-                    </div>
-                </div>
-                {/* <img src={classificationContent[classification].image} alt="..." className="w-full h-64 object-cover rounded-md mb-4" />
-                <p className="text-gray-700 mb-2">{classificationContent[classification].description}</p>
-                <p className="text-gray-500">{classificationContent[classification].tips}</p> */}
+      {predictionResponse && predictionContent[predictionResponse.estrategia_prevista] && (
+        <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <h3 className="text-2xl font-semibold mb-4">Estratégia Recomendada: {predictionContent[predictionResponse.estrategia_prevista].title}</h3>
+          <p className="text-gray-700 mb-4">{predictionContent[predictionResponse.estrategia_prevista].description}</p>
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <img
+              src={predictionContent[predictionResponse.estrategia_prevista].image}
+              alt={predictionContent[predictionResponse.estrategia_prevista].title}
+              className="rounded-md w-96 h-72 object-cover"
+            />
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold mb-2">Justificativa:</h4>
+              <p className="text-gray-700 mb-2">{predictionResponse.justificativa}</p>
+              <h4 className="text-xl font-semibold mb-2">Recomendações para Eucalipto:</h4>
+              <p className="text-gray-700 mb-2">{predictionResponse.eucalipto}</p>
+              <h4 className="text-xl font-semibold mb-2">Orientações de Adubação:</h4>
+              <p className="text-gray-700">{predictionResponse.adubacao}</p>
             </div>
-        )}
-  
-        {predictionResponse && (
-            <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-                <h3 className="text-2xl font-semibold mb-4">Estratégia Recomendada: {predictionContent[predictionResponse.estrategia_prevista].title}</h3>
-                
-                <div className="flex flex-col md:flex-row items-center md:items-start w-full gap-8">
-                    <img 
-                        src={predictionContent[predictionResponse.estrategia_prevista].image} 
-                        alt={predictionContent[predictionResponse.estrategia_prevista].title}
-                        className="rounded-md object-cover 
-                                w-96 h-72 md:w-[450px] md:h-[340px] 
-                                transition-all duration-300"
-                    />
-                    
-                    <div className="pl-10 pt-5 flex-1">
-                        <h4 className="text-2xl font-semibold mb-4">Justificativa:</h4>
-                        <p className="text-gray-700 mb-2">{predictionResponse.justificativa}</p>
-                        
-                        <h4 className="text-2xl font-semibold mb-4">Recomendações para Eucalipto:</h4>
-                        <p className="text-gray-700 mb-2">{predictionResponse.eucalipto}</p>
-                        
-                        <h4 className="text-2xl font-semibold mb-4">Orientações de Adubação:</h4>
-                        <p className="text-gray-700 mb-2">{predictionResponse.adubacao}</p>
-                    </div>
-                </div>
-            </div>
-        )}
-      </div>
-    );
-  };
-  
-  export default PredictionDisplay;
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PredictionDisplay;

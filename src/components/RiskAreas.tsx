@@ -160,30 +160,35 @@ const RiskAreas: React.FC = () => {
         }
     };
 
-    const fetchReforestedAreaData = async (area: ReforestedArea): Promise<GeospatialData | null> => {
+    const fetchReforestedAreaData = async (areas: ReforestedArea []): Promise<GeospatialData[]> => {
         try {
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://127.0.0.1:5000/geospatial_data", {
+            let payload = [];
+            for (const area of areas) {
+                payload.push({
+                    coordinates: area.geom.coordinates[0].map(coord => [coord[1], coord[0]]),
+                });
+            }
+
+            const response = await fetch("http://127.0.0.1:5000/geospatial_data/batch", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    coordinates: area.geom.coordinates[0].map(coord => [coord[1], coord[0]]),
-                }),
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) {
                 throw new Error(`Erro ao buscar os dados geoespaciais da área: ${response.statusText}`);
             }
 
-            const data: GeospatialData = await response.json();
+            const data: GeospatialData [] = await response.json();
             return data;
         } catch (error) {
             console.error(error);
-            return null;
+            return [];
         }
     };
 
@@ -322,30 +327,68 @@ const RiskAreas: React.FC = () => {
         const loadData = async () => {
             setLoading(true);
             const areas = await fetchReforestedAreas();
-            const resolvedRiskAreas: RiskArea[] = [];
-
-            for (const area of areas) {
-                const geospatialData = await fetchReforestedAreaData(area);
-                if (geospatialData) {
-                    const risks = verifyRisk(geospatialData);
-                    const classification = await classifyArea(geospatialData);
-                    const riskArea: RiskArea = {
-                        area,
-                        geospatialData,
-                        risks,
-                        classification: classification?.species || "indefinido"
-                    };                    
-                    resolvedRiskAreas.push(riskArea);
-                }
+            const allGeospatialData: GeospatialData[] = await fetchReforestedAreaData(areas);
+    
+            if (!allGeospatialData || allGeospatialData.length === 0) {
+                console.error("Nenhum dado geoespacial encontrado para as áreas.");
             }
-
+    
+            const resolvedRiskAreas: RiskArea[] = [];
+    
+            const normalizeCoordinates = (coords: number[][]) => {
+                return coords
+                    .filter(([lon, lat]) => typeof lon === "number" && typeof lat === "number")
+                    .map(([lon, lat]) => [
+                        parseFloat(lat.toFixed(6)),
+                        parseFloat(lon.toFixed(6)),
+                    ]);
+            };
+    
+            for (const area of areas) {
+                const coordsToFind = normalizeCoordinates(area.geom.coordinates[0]);
+    
+                const geospatialData = allGeospatialData.find((data) => {
+                    try {
+                        const parsedCoords: any = JSON.parse(data.id);
+    
+                        if (!Array.isArray(parsedCoords)) return false;
+    
+                        const coordsInData = parsedCoords.map(coord => [coord[1], coord[0]]);
+    
+                        const normalizedCoordsInData = normalizeCoordinates(coordsInData);
+                        return JSON.stringify(normalizedCoordsInData) === JSON.stringify(coordsToFind);
+    
+                    } catch (e) {
+                        console.warn(`Erro ao fazer parse de data.id: ${data.id}`, e);
+                        return false;
+                    }
+                });
+    
+                if (!geospatialData) {
+                    console.warn(`Dados geoespaciais não encontrados para a área: ${area.name}`);
+                    continue;
+                }
+    
+                const risks = verifyRisk(geospatialData);
+                const classification = await classifyArea(geospatialData);
+    
+                const riskArea: RiskArea = {
+                    area,
+                    geospatialData,
+                    risks,
+                    classification: classification?.species || "indefinido"
+                };
+    
+                resolvedRiskAreas.push(riskArea);
+            }
+    
             setRiskAreas(resolvedRiskAreas);
             setLoading(false);
         };
-
+    
         loadData();
     }, []);
-
+    
     const handleExport = (format: string, data: any) => {
         var filename = "relatorio_geral"
          + "_" + new Date().toISOString().split('T')[0];
