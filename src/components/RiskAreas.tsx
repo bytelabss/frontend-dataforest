@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { exportToCSV } from "./ExportCSV.tsx";
+import { exportToJSON } from "./ExportJSON";
+import { exportToPDF } from "./ExportPDF";
 
 interface Geometry {
     type: string;
@@ -343,6 +346,28 @@ const RiskAreas: React.FC = () => {
         loadData();
     }, []);
 
+    const handleExport = (format: string, data: any) => {
+        var filename = "relatorio_geral"
+         + "_" + new Date().toISOString().split('T')[0];
+        if (typeof data === "object"){
+            if (data.hasOwnProperty("area")){
+            filename = `relatorio_area_${data.area.name.replace(/\s+/g, '_').toLowerCase()}` + "_" + new Date().toISOString().split('T')[0];
+        }}
+        switch (format) {
+            case "csv":
+                exportToCSV(data, filename);
+                break;
+            case "json":
+                exportToJSON(data, filename);
+                break;
+            case "pdf":
+                exportToPDF(data, filename);
+                break;
+            default:
+                console.error("Formato não suportado");
+        }
+    };
+
 
     if (loading) {
         return <p>Carregando áreas de risco...</p>;
@@ -353,7 +378,7 @@ const RiskAreas: React.FC = () => {
 
     return (
         <div className="flex flex-col md:flex-row gap-4 p-6 bg-white min-h-screen">
-            <div className="grid-1 bg-[#f3eded57] p-6 shadow-lg rounded-lg w-4xl mx-auto md:w-2/3 md:h-2/3 overflow-y-auto">
+            <div className="grid-1 bg-[#f3eded57] p-6 shadow-lg rounded-lg w-4xl mx-auto md:w-2/3 md:h-2/3">
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">Áreas que correm Risco</h2>
                 <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                     {riskAreas.map((riskArea) => (
@@ -396,6 +421,40 @@ const RiskAreas: React.FC = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="relative flex justify-center mt-5">
+                                <button
+                                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition"
+                                    onClick={(e) => {
+                                        const dropdown = e.currentTarget.nextElementSibling as HTMLElement;
+                                        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                                    }}
+                                >
+                                    📥 Exportar Relatório Geral
+                                </button>
+                                <div
+                                    className="absolute bg-white border border-gray-300 rounded shadow-lg mt-2 w-48"
+                                    style={{ display: "none" }}
+                                >
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("csv", riskAreas)}
+                                    >
+                                        Exportar CSV
+                                    </button>
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("json", riskAreas)}
+                                    >
+                                        Exportar JSON
+                                    </button>
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("pdf", riskAreas)}
+                                    >
+                                        Exportar PDF
+                                    </button>
+                                </div>
                 </div>
             </div>
 
@@ -532,13 +591,50 @@ const RiskAreas: React.FC = () => {
                             </ul>
                         </div>
                     </details>
-
-                    <button
-                        className="mt-6 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded transition"
-                        onClick={() => setSelectedArea(null)}
-                    >
-                        Fechar
-                    </button>
+                    <div className="flex flex-row gap-4 mb-4 items-bottom mt-6">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="relative">
+                                <button
+                                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition"
+                                    onClick={(e) => {
+                                        const dropdown = e.currentTarget.nextElementSibling as HTMLElement;
+                                        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                                    }}
+                                >
+                                    📥 Exportar Relatório
+                                </button>
+                                <div
+                                    className="absolute bg-white border border-gray-300 rounded shadow-lg mt-2 w-48"
+                                    style={{ display: "none" }}
+                                >
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("csv", selectedArea)}
+                                    >
+                                        Exportar CSV
+                                    </button>
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("json", selectedArea)}
+                                    >
+                                        Exportar JSON
+                                    </button>
+                                    <button
+                                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white transition"
+                                        onClick={() => handleExport("pdf", selectedArea)}
+                                    >
+                                        Exportar PDF
+                                    </button>
+                                </div>
+                            </div>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
+                                onClick={() => setSelectedArea(null)}
+                            >
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
