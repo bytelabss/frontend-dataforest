@@ -24,9 +24,9 @@ export default function Home(): JSX.Element {
             <span className="pt-4">ou</span>
           </div>
           <br />
-          <a href="" className="pt-10 underline decoration-solid">
+            <a href="/dashboard" className="pt-10 underline decoration-solid">
             Me leve até o dashboard.
-          </a>
+            </a>
         </div>
         <div className="w-2xl">
           <img src={Plant} alt="Reflorestamento" />

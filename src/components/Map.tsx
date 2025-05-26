@@ -4,46 +4,9 @@ import "leaflet/dist/leaflet.css";
 import { LatLng, LatLngBounds } from "leaflet";
 import "./styles.css";
 import { a } from "framer-motion/client";
+import { ReforestedArea, GeospatialData } from "../shared/types";
 
 export default function Map(): JSX.Element {
-    interface Geometry {
-        type: string;
-        coordinates: number[][][];
-    }
-
-    interface ReforestedArea {
-        id: string;
-        name: string;
-        description: string;
-        area_in_m2: number;
-        geom: Geometry;
-        user_id: string;
-        created_at: string;
-        updated_at: string;
-    }
-
-    interface RasterData{
-        valor: number;
-        medida: string;
-    }
-
-    interface Raster {
-        temperatura?: RasterData;
-        precipitacao?: RasterData;
-        altitude?: RasterData;
-        declividade?: RasterData;
-        exposicao?: RasterData;
-        distancia_vertical_drenagem?: RasterData;
-        densidade_drenagem?: RasterData;
-        cobertura_arborea?: RasterData;
-    }
-
-    interface GeospatialData {
-        id: string;
-        geom: string;
-        raster: Raster;
-    }
-
     const [areas, setAreas] = useState<ReforestedArea[]>([]);
     const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null);
     const [classificationResult, setClassificationResult] = useState<any>(null);
@@ -81,10 +44,12 @@ export default function Map(): JSX.Element {
     const fetchReforestedAreaData = async (area: ReforestedArea): Promise<GeospatialData | null> => {
         console.log("Fetch body:", area.geom.coordinates[0].map(coord => [coord[1], coord[0]]));
         try {
+            const token = localStorage.getItem("token");
             const response = await fetch("http://127.0.0.1:5000/geospatial_data", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     coordinates: area.geom.coordinates[0].map(coord => [coord[1], coord[0]]),
@@ -140,12 +105,14 @@ export default function Map(): JSX.Element {
                 temperatura: area.raster["temperatura"]?.["valor"] || 0,
                 precipitacao: area.raster["precipitacao"]?.["valor"] || 0,
                 altitude: area.raster["altitude"]?.["valor"] || 0,
-                declividade: area.raster["altitude"]?.["valor"] || 0,
-                exposicao: area.raster["altitude"]?.["valor"] || 0,
-                distancia_vertical_drenagem: area.raster["altitude"]?.["valor"] || 0,
-                densidade_drenagem: area.raster["altitude"]?.["valor"] || 0,
-                cobertura_arborea: area.raster["altitude"]?.["valor"] || 0,
+                declividade: area.raster["declividade"]?.["valor"] || 0,
+                exposicao: area.raster["exposicao"]?.["valor"] || 0,
+                distancia_vertical_drenagem: area.raster["distancia_vertical_drenagem"]?.["valor"] || 0,
+                densidade_drenagem: area.raster["densidade_drenagem"]?.["valor"] || 0,
+                cobertura_arborea: area.raster["cobertura_arborea"]?.["valor"] || 0,
             };
+
+            console.log("Payload de previsão:", payload);
 
             const response = await fetch("http://127.0.0.1:5000/prever-estrategia", {
                 method: "POST",

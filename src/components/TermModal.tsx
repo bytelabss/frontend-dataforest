@@ -1,4 +1,3 @@
-// src/components/TermoModal.tsx
 import { useState, useEffect } from "react";
 
 interface Section {
@@ -9,8 +8,8 @@ interface Section {
 }
 
 interface TermoModalProps {
-  onAccept?: () => void; // Callback opcional quando termos são aceitos
-  showInitially?: boolean; // Se deve mostrar o modal ao carregar
+  onAccept?: () => void;
+  showInitially?: boolean;
 }
 
 export default function TermoModal({ 
@@ -23,7 +22,6 @@ export default function TermoModal({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Carrega os termos da API
   useEffect(() => {
     const carregarTermos = async () => {
       try {
@@ -32,14 +30,16 @@ export default function TermoModal({
           throw new Error("Falha ao carregar termos");
         }
         const data = await response.json();
-        
+
         setSections(data.sections);
+
         const initialChecks = data.sections.reduce((acc: Record<string, boolean>, section: Section) => {
           acc[section.id] = false;
           return acc;
         }, {});
         
         setChecks(initialChecks);
+
       } catch (err) {
         console.error("Erro:", err);
         setError(err instanceof Error ? err.message : "Erro desconhecido");
@@ -70,7 +70,7 @@ export default function TermoModal({
         },
         body: JSON.stringify({
           sections: Object.entries(checks)
-            .filter(([checked]) => checked)
+            .filter(([_, checked]) => checked)
             .map(([id]) => ({ section_id: id, accepted: true })),
         })
       });
@@ -80,7 +80,7 @@ export default function TermoModal({
       }
 
       setMostrarModal(false);
-      onAccept?.(); // Chama a callback se existir
+      onAccept?.();
     } catch (err) {
       console.error("Erro:", err);
       setError(err instanceof Error ? err.message : "Erro ao aceitar termos");
